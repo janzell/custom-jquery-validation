@@ -442,7 +442,6 @@ Validation = function () {
                 this.valid = false;
                 this.setMessage('An Applicant needs to be ' + validAge + ' years old to Apply for Credit.');
             }
-
         }
 
         // only CA state is valid
@@ -452,7 +451,6 @@ Validation = function () {
                 this.valid = false;
                 this.setMessage('Ascend is currently only accepting applications for credit in California');
             }
-
         }
 
         //validate from and to values
@@ -515,58 +513,19 @@ $('.validate').submit(function (event) {
     var formNotification = $("#form-notification");
     var notification;
 
-    if( formNotification.size() == 1 )
+    if (formNotification.size() == 1) {
         notification = formNotification;
-    else
+    } else {
         notification = $('#notification');
+    }
 
-    var isValidResult = ValidateObj.validateForm(this.id);
-
-    if (isValidResult != true) {
-
-        var stepId = $(this).attr('id');
-
-        if (stepId == 'CreditCheckForm' || stepId == 'EmploymenVerificationForm'
-            || stepId == 'lendingTreeLPForm' || stepId == 'UserAccountForm') {
-            $('body').scrollTo(notification, 500, {offset: -60});
-        }
-
+    if (isValidResult = ValidateObj.validateForm(this.id) != true) {
         notification.html(isValidResult);
-
         event.stopImmediatePropagation();
         event.preventDefault();
-
         return false;
     }
 
     return true;
 
 });
-
-/**
- * Trigger Validation for Modal
- *
- * @param event
- * @return
- */
-$('.validateModal').submit(function (event) {
-
-    var isValidResult = ValidateObj.validateForm(this.id);
-
-    if (isValidResult != true) {
-
-        $('#notificationModal').html(isValidResult);
-
-        event.stopImmediatePropagation();
-        event.preventDefault();
-
-        return false;
-
-    }
-
-    return true;
-
-});
-
-//Todo: remove this or transfer
-$('[data-toggle="tooltip"]').tooltip();
