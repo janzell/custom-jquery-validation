@@ -2,7 +2,7 @@
  * Validation js
  *
  * Validate form base on css class
- * @author Global Fusion
+ * @author Janzell Jurilla
  */
 
 // ----------------------------------------------------------*/
