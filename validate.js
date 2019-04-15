@@ -145,66 +145,6 @@ Validation = function () {
             }
         }
 
-        //validate other specified / special element
-        //agreement
-        if ($(el).hasClass("agreement")) {
-
-            if (type == 'checkbox' || type == 'radio') {
-
-                if ($('input[name=' + name + ']' + ':checked').length < 1) {
-                    label = $('#' + id).parents().eq(1).children('label').text();
-                    this.valid = false;
-                    this.setMessage('This is for agreement validation');
-                }
-            }
-        }
-
-        //validate rent amount must not equal to 0 or below
-        if ($(el).hasClass("rentAmount")) {
-
-            if ($(el).val() < 1) {
-                this.setMessage('The ' + label + ' value must not be 0');
-                this.valid = false;
-            }
-
-        }
-
-        if ($(el).hasClass("annualGrossIncome")) {
-
-            if ($(el).val() < 1) {
-                this.setMessage('The ' + label + ' value must not be 0');
-                this.valid = false;
-            }
-
-        }
-
-
-        //validate monthly mortage must not be zero
-        if ($(el).hasClass("greaterThanZero")) {
-
-            if ($(el).val() == 0) {
-                this.valid = false;
-                this.setMessage(label + ' must be greater than zero');
-            }
-        }
-
-
-        // validate rent amount greater than 800 else confirmation modal pop up
-        if ($(el).hasClass("confirmRentAmount")) {
-
-            if ($(el).val() < 800 && $(el).val() > 0) {
-
-                $('#ra-modal').modal({
-                    keyboard: false,
-                    backdrop: false
-                });
-
-                this.valid = false;
-                this.setMessage('Please confirm the value for ' + label + '.');
-            }
-
-        }
-
         // check for matching password
         if ($(el).hasClass('matches|password')) {
 
@@ -270,35 +210,18 @@ Validation = function () {
             }
         }
 
-        // check username is duplicate
-        if ($(el).hasClass("duplicateUsername")) {
-
-            var username = $(el).val();
-
-            if (username != '') {
-                this.valid = false;
-                this.setMessage('The username: ' + username + ' already exists, please create a unique one.');
-            }
-
-        }
-
+      
         // check username is duplicate
         if ($(el).hasClass("inValidEmailAddress")) {
-
-            console.log(el);
-
             var email = $(el).val();
-
             if (email == '') {
                 this.valid = false;
                 this.setMessage('Sorry, we can\'t verify your Email Address.');
             }
-
         }
 
         //check if minimum of 8 characters
         if ($(el).hasClass("usernameFormat")) {
-
             text = $(el).val();
             regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[~`!@#$%^&*()_+|=\-{}\[\]:;"'<,>.?\/\\]).{8,}$/;
             // var regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*_\-]).{8,}$/;
@@ -308,53 +231,7 @@ Validation = function () {
                 this.setMessage('The ' + label + ' field should contain a Minimum 8 characters and at least 1 number, 1 capital and 1 special character.');
             }
         }
-
-        //check if minimum of 8 characters
-        if ($(el).hasClass("loanAmountFormat")) {
-
-            text = parseInt($(el).val());
-
-            if (text < 2600 || text > 15000) {
-                this.valid = false;
-                this.setMessage('The ' + label + ' amount should be greated than $2600 and less than $15000.');
-            }
-        }
-
-        //check if minimum of 8 characters
-        if ($(el).hasClass("minimum8")) {
-            text = $(el).val();
-            regex = /^[a-zA-Z0-9\s\[\]\.\-#']*$/;
-
-            if (text.length < 8) {
-                this.valid = false;
-                this.setMessage('The ' + label + ' field should contain a minimum of 8 characters.');
-            }
-        }
-
-
-        //check if minimum of 8 characters
-        if ($(el).hasClass("accountNumber")) {
-            text = $(el).val();
-            regex = /^[0-9\s\[\]\.\-#']*$/;
-
-            if (text.length != 9) {
-                this.valid = false;
-                this.setMessage('The ' + label + ' field should contain 9 characters.');
-            }
-        }
-
-        //check if maximum of 20 characters
-        if ($(el).hasClass("maximum20")) {
-            text = $(el).val();
-            regex = /^[a-zA-Z0-9\s\[\]\.\-#']*$/;
-
-            if (text.length > 20) {
-                this.valid = false;
-                this.setMessage('The ' + label + ' field has exceeded more than 20 characters.');
-            }
-        }
-
-
+        
         //check valid email
         if ($(el).hasClass("email") && $(el).val() != "") {
 
@@ -370,64 +247,6 @@ Validation = function () {
             }
         }
 
-        //validate date format
-        if ($(el).hasClass("date") && $(el).val() != "") {
-
-            // var date = $(el).val();
-            // var bits = date.split('-');
-            // var d    = new Date(date);
-
-            // if (d.getMonth() != (bits[1] - 1) || d.getDate() != bits[2] || d.getFullYear() !=  bits[0] ) {
-            //     this.valid = false;
-            //     this.setMessage('The ' + label + ' must contain a valid date format. (yyyy-mm-dd)');
-            // }
-        }
-
-        //check if valid time format
-        if ($(el).hasClass("time") && $(el).val() != "") {
-            regex = /^(([0-1])|([0][0-9])|([1][0-2])):([0-5]?[0-9]) (A|P)M?$/i;
-            if (!regex.test($(el).val())) {
-                this.valid = false;
-                this.setMessage('The ' + label + ' must contain a valid time format. (e.g. 09:00 AM)');
-            }
-        }
-
-        //check if question 1 differs to question 2
-        if ($(el).hasClass("question")) {
-
-            if (this.storage['question'] == $(el).val()) {
-                this.valid = false;
-                this.setMessage('Please use a different security Question from Question  2');
-                this.storage['question'] = "";
-            } else
-                this.storage['question'] = $(el).val();
-        }
-
-
-        //check if Primary Phone number differs to Seconday Phone Number
-        if ($(el).hasClass("PhoneNr")) {
-
-            if (this.storage['PhoneNr'] == $(el).val()) {
-                this.valid = false;
-                this.setMessage('Please use a different Phone Number from Primary Phone Number.');
-                this.storage['PhoneNr'] = "";
-            } else
-                this.storage['PhoneNr'] = $(el).val();
-        }
-
-
-        //check the format phonenumber of the security question if phone number is selected
-        if ($(el).hasClass('answerFormat')) {
-
-            regex = /^([0-9]{3})-([0-9]{3})-([0-9]{4})$/;
-
-            if (!regex.test($(el).val())) {
-                this.valid = false;
-                this.setMessage('Enter phone number for ' + label + '. (format 000-000-0000)');
-            }
-
-        }
-
         // check if the age is valid 18 minimum
         if ($(el).hasClass("valid-age")) {
 
@@ -438,20 +257,11 @@ Validation = function () {
             }
 
             if ($(el).val() < validAge) {
-
                 this.valid = false;
                 this.setMessage('An Applicant needs to be ' + validAge + ' years old to Apply for Credit.');
             }
         }
 
-        // only CA state is valid
-        if ($(el).hasClass('valid-state')) {
-
-            if ($(el).val() != 'CA') {
-                this.valid = false;
-                this.setMessage('Ascend is currently only accepting applications for credit in California');
-            }
-        }
 
         //validate from and to values
         if ($(el).hasClass("from") && $(el).val() != "") {
@@ -527,5 +337,4 @@ $('.validate').submit(function (event) {
     }
 
     return true;
-
 });
